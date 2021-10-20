@@ -1,14 +1,31 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CarouselModule } from 'primeng/carousel';
+import { DialogModule } from 'primeng/dialog';
+import { TableModule } from 'primeng/table';
 
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ButtonModule,
+    DropdownModule,
+    ReactiveFormsModule,
+    CarouselModule,
+    HttpClientModule,
+    DialogModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
