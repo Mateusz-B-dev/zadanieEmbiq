@@ -1,46 +1,66 @@
-<div class="grid pt-5">
-  <div class="col-6 sm-12 col-offset-3 flex flex-row-reverse">
-    <p-dropdown [options]="circuits" [formControl]="selected" (onChange)="selectItem()" optionLabel="name"></p-dropdown>
+<div class="grid pt-5 container">
+  <div class="col-12 xl:col-6 xl:col-offset-3">
+    <p-dropdown placeholder="Select season" [style]="{'width':'100%'}" (onChange)="getCompetition()" [options]="seasons" [formControl]="selected" optionLabel="name"></p-dropdown>
   </div>
-  <div class="col-6 sm-12 col-offset-3 justify-content-center">
-    <p-carousel [value]="responsiveOptions">
-      <ng-template let-car pTemplate="item">
-          <!-- <button pButton label="Content to display" type="button" (click)="openDialog = true"></button> -->
-        </ng-template>
-      </p-carousel>
+  <div class="col-12 xl:col-6 xl:col-offset-3 justify-content-center">
+    <p-card header="Circuits">
+      <p-carousel (onPage)="witchPage($event)" [value]="circuits" [numVisible]="1" [numScroll]="1" [circular]="false" [responsiveOptions]="responsiveOptions">
+        <ng-template let-circuits pTemplate="item">
+            <div class="titleStyle font-bold text-3xl">
+              {{circuits.id}}. {{circuits.name}} - {{circuits.length}}
+            </div>
+            <div><img [src]="circuits.image" width="100%"></div>
+          </ng-template>
+        </p-carousel>
+  </p-card>
   </div>
-  <div class="col-6 sm-12 col-offset-3 justify-content-center">
-    <p-table [value]="cars">
+  <div [hidden]="rankingVisible" class="col-12 xl:col-6 xl:col-offset-3 justify-content-center">
+    <p-table responsiveLayout="scroll" [value]="rankings">
       <ng-template pTemplate="header">
           <tr>
-              <th>Vin</th>
-              <th>Year</th>
-              <th>Brand</th>
-              <th>Color</th>
+              <th>Position</th>
+              <th>Name</th>
+              <th>Time</th>
               <th></th>
           </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-car>
+      <ng-template pTemplate="body" let-rankings>
           <tr>
-              <td>{{car.vin}}</td>
-              <td>{{car.year}}</td>
-              <td>{{car.brand}}</td>
-              <td>{{car.color}}</td>
+              <td>{{rankings.position}}</td>
+              <td>{{rankings.name}}</td>
+              <td>{{rankings.time}}</td>
               <td style="text-align: center">
-                <button pButton type="button" class="p-button-secondary" label="Details" (click)="openDialog = true"></button>
+                <button pButton type="button" class="p-button-secondary" label="Details" (click)="detailsDriver(rankings.id)"></button>
             </td>
           </tr>
       </ng-template>
   </p-table>
-  <p-dialog header="Header" [(visible)]="openDialog" [style]="{width: '50vw'}">
+  <p-dialog header="{{details?.name}}" [(visible)]="openDialog" [style]="{width: '70%'}">
     <div class="grid">
-      <div class="col-6">
-        <p>Name: Lewis Hamilton</p>
-        <p>Age: 31</p>
-        <p>Country: USA</p>
+      <div class="col-6 font-bold">
+        <p>Birthdate: {{details?.birthdate}}</p>
+        <p>Nationality: {{details?.nationality}}</p>
       </div>
       <div class="col-6">
-        Picture
+        <img [src]="details?.image" width="30%" [alt]="details?.name">
+      </div>
+      <div class="col-12">
+        <p-table [value]="detailsTeams" responsiveLayout="scroll">
+          <ng-template pTemplate="header">
+              <tr>
+                  <th>Season</th>
+                  <th>Name</th>
+                  <th>Logo</th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-detailsTeams>
+              <tr>
+                  <td>{{detailsTeams.season}}</td>
+                  <td>{{detailsTeams.team.name}}</td>
+                  <td><img [src]="detailsTeams.team.logo" width="100px" [alt]="details?.name"></td>
+              </tr>
+          </ng-template>
+      </p-table>
       </div>
     </div>
     <ng-template>
