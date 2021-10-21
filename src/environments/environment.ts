@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  rapidHost: 'api-formula-1.p.rapidapi.com',
+  rapidKey: 'f3ba240e7amsh666ebc124f6de2ep1f18c8jsn4f88d5230338',
 
   connectToServer(): string {
     return 'https://api-formula-1.p.rapidapi.com/';
